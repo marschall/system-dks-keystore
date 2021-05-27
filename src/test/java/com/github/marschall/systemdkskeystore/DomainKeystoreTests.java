@@ -32,8 +32,11 @@ class DomainKeystoreTests {
 
     System.out.println("keystore size: " + keyStore.size());
     System.out.println("aliases: " + Collections.list(keyStore.aliases()));
-    assertTrue(keyStore.isCertificateEntry("self-signed")); // from the generated truststore
-    assertTrue(keyStore.isCertificateEntry("untrusted-root")); // from the directory truststore
+    assertTrue(keyStore.isCertificateEntry("bad_ssl_truststore self-signed")); // from the generated truststore
+    assertTrue(keyStore.isCertificateEntry("bad_ssl_truststore untrusted-root")); // from the directory truststore
+
+    assertTrue(keyStore.isCertificateEntry("system_truststore letsencryptisrgx1 [jdk]")); // from the JDK truststore
+    assertTrue(keyStore.isCertificateEntry("system_truststore digicertglobalrootca [jdk]")); // from the JDK truststore
 
     List<String> aliases = Collections.list(keyStore.aliases());
     assertThat(aliases, hasSize(greaterThan(10))); // from the JDK truststore
