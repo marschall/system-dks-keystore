@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.marschall</groupId>
   <artifactId>system-dks-keystore</artifactId>
   <version>1.0.0-SNAPSHOT</version>
-  
+
   <name>System DKS Keystore</name>
   <inceptionYear>2021</inceptionYear>
   <description>A keystore that allows DKS to use as a system keystore.</description>
@@ -209,6 +210,9 @@
             --add-opens com.github.marschall.systemdkskeystore/com.github.marschall.systemdkskeystore=ALL-UNNAMED
           </argLine>
           <enableAssertions>true</enableAssertions>
+          <environmentVariables>
+            <CHANGEIT>changeit</CHANGEIT>
+          </environmentVariables>
         </configuration>
       </plugin>
       <plugin>
@@ -218,6 +222,27 @@
           <mavenExecutorId>forked-path</mavenExecutorId>
           <arguments>-Pdeploy-to-sonatype-oss</arguments>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.marschall</groupId>
+        <artifactId>truststore-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-truststore</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>generate-pkcs12</goal>
+            </goals>
+            <configuration>
+              <!-- 
+              <password></password>
+              <noPassword>true</noPassword>
+              -->
+              <finalName>bad-ssl</finalName>
+              <sourceDirectory>src/test/resources/certificates</sourceDirectory>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <pluginManagement>
@@ -283,6 +308,11 @@
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
           <version>2.5.3</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.marschall</groupId>
+          <artifactId>truststore-maven-plugin</artifactId>
+          <version>0.4.1-SNAPSHOT</version>
         </plugin>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
         <plugin>

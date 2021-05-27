@@ -1,0 +1,21 @@
+domain junit_unprotected {
+
+    keystore bad_ssl_truststore
+        keystoreURI="${user.dir}/target/generated-truststores/bad-ssl.p12";
+
+    keystore system_truststore 
+        keystoreURI="${java.home}/lib/security/cacerts";
+
+};
+
+domain junit_protected {
+
+    keystore bad_ssl_truststore
+        eystoreType="PKCS12"
+        keystorePasswordEnv="CHANGEIT"
+        keystoreURI="${user.dir}/target/generated-truststores/bad-ssl.p12";
+
+    keystore system_truststore 
+        keystoreURI="${java.home}/lib/security/cacerts";
+
+};
