@@ -16,6 +16,7 @@ public final class SystemDksKeystoreProvider extends Provider {
 
   public SystemDksKeystoreProvider() {
     super(NAME, "1.0.0", "system-DKS (KeyStore)");
+    this.put("KeyStore." + TYPE, SystemDksKeystore.class.getName());
   }
 
 }

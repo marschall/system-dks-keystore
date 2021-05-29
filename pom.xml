@@ -43,6 +43,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-junit</artifactId>
       <version>2.0.0.0</version>
@@ -103,16 +108,22 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <release>8</release>
+        </configuration>
         <executions>
+          <!-- 
           <execution>
-            <id>compile-java-8</id>
+            <id>default-compile</id>
+            <phase>compile</phase>
             <goals>
               <goal>compile</goal>
             </goals>
             <configuration>
-              <release>9</release>
+              <release>8</release>
             </configuration>
           </execution>
+          -->
           <execution>
             <id>compile-java-9</id>
             <phase>compile</phase>
@@ -124,7 +135,7 @@
               <compileSourceRoots>
                 <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
               </compileSourceRoots>
-              <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
+              <multiReleaseOutput>true</multiReleaseOutput>
             </configuration>
           </execution>
         </executions>
@@ -208,6 +219,8 @@
           <argLine>
             -Djava.security.properties=${basedir}/src/test/resources/additional.java.security
             --add-opens com.github.marschall.systemdkskeystore/com.github.marschall.systemdkskeystore=ALL-UNNAMED
+            -Djavax.net.ssl.trustStore=${basedir}/src/test/resources/keystores/sample.dks#junit_protected
+            -Djavax.net.ssl.trustStoreType=DKS
           </argLine>
           <enableAssertions>true</enableAssertions>
           <environmentVariables>
@@ -234,10 +247,6 @@
               <goal>generate-pkcs12</goal>
             </goals>
             <configuration>
-              <!-- 
-              <password></password>
-              <noPassword>true</noPassword>
-              -->
               <finalName>bad-ssl</finalName>
               <sourceDirectory>src/test/resources/certificates</sourceDirectory>
             </configuration>
