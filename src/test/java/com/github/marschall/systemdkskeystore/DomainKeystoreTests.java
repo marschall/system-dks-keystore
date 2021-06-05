@@ -38,10 +38,10 @@ class DomainKeystoreTests {
 
   @Test
   void systemDefaultTruststore() {
-    String defaultTruststore = System.getProperty("javax.net.ssl.trustStore");
-    assertNotNull(defaultTruststore);
-    assertFalse(defaultTruststore.isEmpty());
-    assertEquals("DKS", defaultTruststore);
+    String defaultTrustStoreType = System.getProperty("javax.net.ssl.trustStoreType");
+    assertNotNull(defaultTrustStoreType);
+    assertFalse(defaultTrustStoreType.isEmpty());
+    assertEquals("system-DKS", defaultTrustStoreType, "JVM default truststore type");
   }
 
 }

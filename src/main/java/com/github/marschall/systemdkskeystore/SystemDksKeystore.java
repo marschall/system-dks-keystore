@@ -25,10 +25,20 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 
+/**
+ * {@link KeyStoreSpi} implementation that delegates to a DKS key store.
+ * <p>
+ * Should not be called directly.
+ */
 public final class SystemDksKeystore extends KeyStoreSpi {
 
   private KeyStore delegate;
 
+  /**
+   * Default constructor.
+   * <p>
+   * Should not be called directly.
+   */
   public SystemDksKeystore() {
     super();
   }
@@ -51,14 +61,9 @@ public final class SystemDksKeystore extends KeyStoreSpi {
   public void engineLoad(InputStream stream, char[] password) throws IOException, NoSuchAlgorithmException, CertificateException {
     // intentionally don't close as caller has to close
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream), 1024); // use default charset
-    String location = bufferedReader.readLine();
+    String location = PropertyReplacer.replaceProperties(bufferedReader.readLine());
 
-    URI dksUri;
-    try {
-      dksUri = new URI(location);
-    } catch (URISyntaxException e) {
-      throw new IOException("invalid URI:" + location, e);
-    }
+    URI dksUri = toUri(location);
     Map<String, ProtectionParameter> protectionParams = Collections.emptyMap();
     LoadStoreParameter loadStoreParameter = new DomainLoadStoreParameter(dksUri, protectionParams);
 
@@ -68,6 +73,18 @@ public final class SystemDksKeystore extends KeyStoreSpi {
       throw new NoSuchAlgorithmException("DKS keystore type is unsupported", e);
     }
     this.delegate.load(loadStoreParameter);
+  }
+
+  private static URI toUri(String location) throws IOException {
+    String resolved = PropertyReplacer.replaceProperties(location);
+    if (!resolved.contains(":/")) {
+      resolved = "file://" + resolved;
+    }
+    try {
+      return new URI(resolved);
+    } catch (URISyntaxException e) {
+      throw new IOException("invalid URI:" + location, e);
+    }
   }
 
   @Override
@@ -210,6 +227,5 @@ public final class SystemDksKeystore extends KeyStoreSpi {
       throw new IllegalStateException("could not check entry with alias: " + alias, e);
     }
   }
-
 
 }
