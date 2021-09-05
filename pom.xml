@@ -112,18 +112,6 @@
           <release>8</release>
         </configuration>
         <executions>
-          <!-- 
-          <execution>
-            <id>default-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <release>8</release>
-            </configuration>
-          </execution>
-          -->
           <execution>
             <id>compile-java-9</id>
             <phase>compile</phase>
@@ -181,28 +169,6 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>codes.rafael.modulemaker</groupId>
-        <artifactId>modulemaker-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>make-module</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <name>com.github.marschall.systemdkskeystore</name>
-          <exports>com.github.marschall.systemdkskeystore</exports>
-          <provides>
-            <provide>
-              <services>java.security.Provider</services>
-              <providers>com.github.marschall.systemdkskeystore.SystemDksKeystoreProvider</providers>
-            </provide>
-          </provides>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
@@ -217,10 +183,10 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <argLine>
-            -Djava.security.properties=${basedir}/src/test/resources/additional.java.security
             --add-opens com.github.marschall.systemdkskeystore/com.github.marschall.systemdkskeystore=ALL-UNNAMED
-            -Djavax.net.ssl.trustStore=${basedir}/src/test/resources/keystores/sample.dks#junit_protected
-            -Djavax.net.ssl.trustStoreType=DKS
+            -Djava.security.properties=${basedir}/src/test/resources/additional.java.security
+            -Djavax.net.ssl.trustStore=${basedir}/src/test/resources/keystores/keystore.redirect
+            -Djavax.net.ssl.trustStoreType=system-DKS
           </argLine>
           <enableAssertions>true</enableAssertions>
           <environmentVariables>
@@ -270,20 +236,15 @@
         </plugin>
         <plugin>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
+          <version>3.0.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
           <version>2.5.2</version>
         </plugin>
         <plugin>
-          <groupId>codes.rafael.modulemaker</groupId>
-          <artifactId>modulemaker-maven-plugin</artifactId>
-          <version>1.7</version>
-        </plugin>
-        <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.9.0</version>
+          <version>3.9.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -292,7 +253,7 @@
         <plugin>
           <groupId>org.jboss.jandex</groupId>
           <artifactId>jandex-maven-plugin</artifactId>
-          <version>1.0.8</version>
+          <version>1.1.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
@@ -300,7 +261,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
@@ -321,45 +282,7 @@
         <plugin>
           <groupId>com.github.marschall</groupId>
           <artifactId>truststore-maven-plugin</artifactId>
-          <version>0.4.1-SNAPSHOT</version>
-        </plugin>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.jboss.jandex</groupId>
-                    <artifactId>jandex-maven-plugin</artifactId>
-                    <versionRange>[1.0.1,)</versionRange>
-                    <goals>
-                      <goal>jandex</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>codes.rafael.modulemaker</groupId>
-                    <artifactId>modulemaker-maven-plugin</artifactId>
-                    <versionRange>[1.7,)</versionRange>
-                    <goals>
-                      <goal>make-module</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
+          <version>0.5.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
