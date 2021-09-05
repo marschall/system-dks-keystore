@@ -13,8 +13,6 @@ echo "security.provider.13=system-DKS" > additional.java.security
 # create the redirect file that poins to the actual DKS file and domain
 echo "sample.dks#domain_name" > keystore.redirect
 
-echo ""
-
 java \
   -Djava.security.properties=additional.java.security \
   -Djavax.net.ssl.trustStore=keystore.redirect \
