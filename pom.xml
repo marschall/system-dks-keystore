@@ -8,7 +8,7 @@
 
   <name>System DKS Keystore</name>
   <inceptionYear>2021</inceptionYear>
-  <description>A keystore that allows DKS to use as a system keystore.</description>
+  <description>A keystore that allows DKS to be used as a system keystore.</description>
 
   <url>https://github.com/marschall/system-dks-keystore</url>
 
