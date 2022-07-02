@@ -183,6 +183,7 @@
         <configuration>
           <argLine>
             --add-opens com.github.marschall.systemdkskeystore/com.github.marschall.systemdkskeystore=ALL-UNNAMED
+            -Djdk.security.allowNonCaAnchor=true
             -Djava.security.properties=${basedir}/src/test/resources/additional.java.security
             -Djavax.net.ssl.trustStore=${basedir}/src/test/resources/keystores/keystore.redirect
             -Djavax.net.ssl.trustStoreType=system-DKS
