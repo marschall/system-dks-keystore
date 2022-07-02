@@ -1,4 +1,4 @@
-System DKS KeyStore
+System DKS KeyStore [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/system-dks-keystore/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.marschall/system-dks-keystore) [![Javadocs](https://www.javadoc.io/badge/com.github.marschall/system-dks-keystore.svg)](https://www.javadoc.io/doc/com.github.marschall/system-dks-keystore)
 ===================
 
 Just like the DKS keystore but can be used as a system keystore.
