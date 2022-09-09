@@ -38,7 +38,7 @@ If you want to create a DKS truststore that contains the JDK truststore plus the
 domain system_plus {
 
     keystore plus
-        eystoreType="PKCS12"
+        keystoreType="PKCS12"
         keystorePasswordEnv="CHANGEIT"
         keystoreURI="${user.dir}/plus.p12";
 
